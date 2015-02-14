@@ -8,15 +8,12 @@ defmodule SetOne do
   end
 
   def my_hex_xor(a, b) do
-    my_xor(Base.decode16!(a), Base.decode16!(b)) |>
+    first  = Base.decode16!(a) |> :binary.bin_to_list
+    second = Base.decode16!(b) |> :binary.bin_to_list
+
+    Enum.zip(first, second) |>
+      Enum.map(fn({x,y}) -> x ^^^ y end) |>
       to_string |>
       Base.encode16
   end
-
-  def my_xor(a,b) do
-    for x <- b, do: x
-  end
-
-  # <<r::8, g::8, b::8 <- pixels >>, do: {r, g, b}
-
 end

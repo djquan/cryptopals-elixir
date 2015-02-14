@@ -8,9 +8,9 @@ defmodule SetOneTest do
   end
 
   test "can XOR two equal length buffers" do
-    a = "1c0111001f010100061a024b53535009181c" |> String.upcase
-    b = "686974207468652062756c6c277320657965" |> String.upcase
-    expected = "746865206b696420646f6e277420706c6179" |> String.upcase
+    a = "1C0111001F010100061A024B53535009181C"
+    b = "686974207468652062756C6C277320657965"
+    expected = "746865206B696420646F6E277420706C6179"
     assert expected == SetOne.my_hex_xor(a,b)
   end
 end
