@@ -2,24 +2,23 @@ defmodule SetOne do
   use Bitwise;
 
   def hex_to_base64(input) do
-    String.upcase(input) |>
-      Base.decode16! |>
-      Base.encode64
+    String.upcase(input)
+    |> Base.decode16!
+    |> Base.encode64
   end
 
   def my_hex_xor(a, b) do
     first  = Base.decode16!(a) |> :binary.bin_to_list
     second = Base.decode16!(b) |> :binary.bin_to_list
 
-    Enum.zip(first, second) |>
-      Enum.map(fn({x,y}) -> x ^^^ y end) |>
-      to_string |>
-      Base.encode16
+    Enum.zip(first, second)
+    |> Enum.map(fn({x,y}) -> x ^^^ y end)
+    |> to_string
+    |> Base.encode16
   end
 
   def my_decoder(ciphertext) do
-    bytes = 0..9 |>
-      Enum.map(fn(x) -> to_string(x) end)
+    bytes = 0..9 |> Enum.map(fn(x) -> to_string(x) end)
     bytes = bytes ++ ["A", "B", "C", "D", "E", "F"]
     high_score = 0
     plaintext = nil
