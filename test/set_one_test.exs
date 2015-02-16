@@ -16,7 +16,8 @@ defmodule SetOneTest do
 
   test "can decrypt a single byte XOR message" do
     input = "1B37373331363F78151B7F2B783431333D78397828372D363C78373E783A393B3736"
-    expected = "who knows"
-    assert expected == SetOne.my_decoder(input)
+    expected = "Cooking MC's like a pound of bacon"
+    {_, actual} = SetOne.my_decoder(input)
+    assert expected == actual
   end
 end
