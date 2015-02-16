@@ -13,4 +13,12 @@ defmodule SetOneTest do
     expected = "746865206B696420646F6E277420706C6179"
     assert expected == SetOne.my_hex_xor(a,b)
   end
+
+  test "can decrypt a single byte XOR message" do
+    input = "1B37373331363F78151B7F2B783431333D78397828372D363C78373E783A393B3736"
+    
+    expected = "who knows"
+  
+    assert expected == SetOne.my_decoder(input)
+  end
 end
