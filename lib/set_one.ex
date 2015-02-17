@@ -24,6 +24,12 @@ defmodule SetOne do
     end)
   end
 
+  def find_code(ciphertexts) do
+    ciphertexts
+    |> pmap(fn(x) -> my_decoder(String.upcase(x)) end)
+    |> Enum.max_by(fn({score, _word}) -> score end)
+  end
+
   defp my_xor(a, b) do
     Enum.zip(a, b)
     |> Enum.map(fn({x,y}) -> x ^^^ y end)
@@ -44,9 +50,9 @@ defmodule SetOne do
 
   defp decode_16_to_list(x), do: Base.decode16!(x) |> :binary.bin_to_list
 
+  # taken from http://www.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html
+  # added spaces with a weighted value
   defp frequency_map do
-    # taken from http://www.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html
-    # added spaces with a weighted value
     %{
       "E" => 21912,
       "T" => 16587,
@@ -76,5 +82,17 @@ defmodule SetOne do
       "Z" => 128,
       " " => 16000
     }
+  end
+
+  # taken from Programming Elixir by Dave Thomas
+  def pmap(collection, fun) do
+    me = self
+    collection
+    |> Enum.map(fn (elem) ->
+      spawn_link fn -> (send me, { self, fun.(elem) }) end
+    end)
+    |> Enum.map(fn (pid) ->
+      receive do { ^pid, result } -> result end
+    end)
   end
 end

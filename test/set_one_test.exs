@@ -1,5 +1,5 @@
 defmodule SetOneTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   test "can convert Hex to Base64" do
     expected = "SSdtIGtpbGxpbmcgeW91ciBicmFpbiBsaWtlIGEgcG9pc29ub3VzIG11c2hyb29t"
@@ -18,6 +18,14 @@ defmodule SetOneTest do
     input = "1B37373331363F78151B7F2B783431333D78397828372D363C78373E783A393B3736"
     expected = "Cooking MC's like a pound of bacon"
     {_, actual} = SetOne.my_decoder(input)
+    assert expected == actual
+  end
+
+  test "can find one single byte XOR message in many" do
+    expected = "Now that the party is jumping\n"
+    {_, actual} = File.read!("lib/ciphertexts.txt")
+              |> String.split
+              |> SetOne.find_code
     assert expected == actual
   end
 end
