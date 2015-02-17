@@ -1,18 +1,33 @@
 defmodule SetOne do
   use Bitwise;
 
+  @doc """
+  Method to convert hex to base64.
+  See http://cryptopals.com/sets/1/challenges/1/
+  """
   def hex_to_base64(input) do
     String.upcase(input)
     |> Base.decode16!
     |> Base.encode64
   end
 
+  @doc """
+  XORs two hex inputs.
+  Decodes the inputs, calls my_xor on the binary, and reincodes them.
+  See http://cryptopals.com/sets/1/challenges/2/
+  """
   def my_hex_xor(a, b) do
     first  = decode_16_to_list(a)
     second = decode_16_to_list(b)
     my_xor(first, second) |> Base.encode16
   end
 
+  @doc """
+  Tries to decode a given ciphertext that was encrypted with a single byte.
+  Iterates over every possible single byte cipher and tries XORing them.
+  Calculates a score based on letter frequency and returns a tuple with the highest score/plaintext
+  See http://cryptopals.com/sets/1/challenges/3/
+  """
   def my_decoder(ciphertext) do
     ciphertext_list = decode_16_to_list(ciphertext)
     
@@ -24,12 +39,21 @@ defmodule SetOne do
     end)
   end
 
+  @doc """
+  Iterates over an Enum of ciphertexts searching for the highest scoring plaintext.
+  Uses a parallel version of map for efficiency.
+  See http://cryptopals.com/sets/1/challenges/4/
+  """
   def find_code(ciphertexts) do
     ciphertexts
     |> pmap(fn(x) -> my_decoder(String.upcase(x)) end)
     |> Enum.max_by(fn({score, _word}) -> score end)
   end
 
+  @doc """
+  Will encrypt a string(plaintext) with a cipher through repeating XOR
+  http://cryptopals.com/sets/1/challenges/5/
+  """
   def repeating_xor_encrypt(plaintext, cipher) do
     cipher
     |> String.duplicate(String.length(plaintext))

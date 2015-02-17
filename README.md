@@ -1,4 +1,4 @@
 Cryptopals
 ==========
 
-** TODO: Add description **
+Going through http://cryptopals.com/ in Elixir
