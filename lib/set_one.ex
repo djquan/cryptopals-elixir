@@ -30,6 +30,14 @@ defmodule SetOne do
     |> Enum.max_by(fn({score, _word}) -> score end)
   end
 
+  def repeating_xor_encrypt(plaintext, cipher) do
+    cipher
+    |> String.duplicate(String.length(plaintext))
+    |> :binary.bin_to_list
+    |> my_xor(:binary.bin_to_list(plaintext))
+    |> Base.encode16
+  end
+
   defp my_xor(a, b) do
     Enum.zip(a, b)
     |> Enum.map(fn({x,y}) -> x ^^^ y end)
@@ -85,7 +93,7 @@ defmodule SetOne do
   end
 
   # taken from Programming Elixir by Dave Thomas
-  def pmap(collection, fun) do
+  defp pmap(collection, fun) do
     me = self
     collection
     |> Enum.map(fn (elem) ->
