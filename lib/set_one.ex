@@ -62,6 +62,24 @@ defmodule SetOne do
     |> Base.encode16
   end
 
+  @doc """
+  Calcualtes the Hamming Distance of two strings
+  http://cryptopals.com/sets/1/challenges/6/
+  """
+  def hamming(first, second) do
+    a = String.to_char_list(first)
+    b = String.to_char_list(second)
+
+    Enum.zip(a,b)
+    |> Enum.map(fn({x,y}) -> x ^^^ y end)
+    |> Enum.reduce(0, fn(x, acc) -> acc + count_bits(x) end)
+  end
+
+  defp count_bits(bitstring) do
+    bits = for <<s::1 <- <<bitstring>> >>, do: s
+    Enum.sum bits
+  end
+
   defp my_xor(a, b) do
     Enum.zip(a, b)
     |> Enum.map(fn({x,y}) -> x ^^^ y end)
