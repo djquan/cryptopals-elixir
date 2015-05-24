@@ -23,7 +23,7 @@ defmodule SetOne do
   end
 
   @doc """
-  Tries to decode a given ciphertext that was encrypted with a single byte.
+  Decodes a given ciphertext that was encrypted with a single byte.
   Iterates over every possible single byte cipher and tries XORing them.
   Calculates a score based on letter frequency and returns a tuple with the highest score/plaintext
   See http://cryptopals.com/sets/1/challenges/3/
@@ -46,7 +46,7 @@ defmodule SetOne do
   """
   def find_code(ciphertexts) do
     ciphertexts
-    |> pmap(fn(x) -> my_decoder(String.upcase(x)) end)
+    |> Helpers.pmap(fn(x) -> my_decoder(String.upcase(x)) end)
     |> Enum.max_by(fn({score, _word}) -> score end)
   end
 
@@ -95,54 +95,8 @@ defmodule SetOne do
   defp score(plaintext) do
     plaintext
     |> :binary.bin_to_list
-    |> Enum.reduce(fn(x, score) -> score + Map.get(frequency_map, String.upcase(<<x>>), 0) end)
+    |> Enum.reduce(fn(x, score) -> score + Map.get(Helpers.frequency_map, String.upcase(<<x>>), 0) end)
   end
 
   defp decode_16_to_list(x), do: Base.decode16!(x) |> :binary.bin_to_list
-
-  # taken from http://www.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html
-  # added spaces with a weighted value
-  defp frequency_map do
-    %{
-      "E" => 21912,
-      "T" => 16587,
-      "A" => 14810,
-      "O" => 14003,
-      "I" => 13318,
-      "N" => 12666,
-      "S" => 11450,
-      "R" => 10977,
-      "H" => 10795,
-      "D" => 7874,
-      "L" => 7253,
-      "U" => 5246,
-      "C" => 4943,
-      "M" => 4761,
-      "F" => 4200,
-      "Y" => 3853,
-      "W" => 3819,
-      "G" => 3693,
-      "P" => 3316,
-      "B" => 2715,
-      "V" => 2019,
-      "K" => 1257,
-      "X" => 315,
-      "Q" => 205,
-      "J" => 188,
-      "Z" => 128,
-      " " => 16000
-    }
-  end
-
-  # taken from Programming Elixir by Dave Thomas
-  defp pmap(collection, fun) do
-    me = self
-    collection
-    |> Enum.map(fn (elem) ->
-      spawn_link fn -> (send me, { self, fun.(elem) }) end
-    end)
-    |> Enum.map(fn (pid) ->
-      receive do { ^pid, result } -> result end
-    end)
-  end
 end
