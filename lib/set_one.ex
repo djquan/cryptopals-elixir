@@ -3,7 +3,7 @@ defmodule SetOne do
 
   @doc """
   Method to convert hex to base64.
-  See http://cryptopals.com/sets/1/challenges/1/
+  http://cryptopals.com/sets/1/challenges/1/
   """
   def hex_to_base64(input) do
     String.upcase(input)
@@ -14,11 +14,11 @@ defmodule SetOne do
   @doc """
   XORs two hex inputs.
   Decodes the inputs, calls my_xor on the binary, and reincodes them.
-  See http://cryptopals.com/sets/1/challenges/2/
+  http://cryptopals.com/sets/1/challenges/2/
   """
   def my_hex_xor(a, b) do
-    first  = decode_16_to_list(a)
-    second = decode_16_to_list(b)
+    first  = Base.decode16!(a) |> :binary.bin_to_list
+    second = Base.decode16!(b) |> :binary.bin_to_list
     my_xor(first, second) |> Base.encode16
   end
 
@@ -26,11 +26,11 @@ defmodule SetOne do
   Decodes a given ciphertext that was encrypted with a single byte.
   Iterates over every possible single byte cipher and tries XORing them.
   Calculates a score based on letter frequency and returns a tuple with the highest score/plaintext
-  See http://cryptopals.com/sets/1/challenges/3/
+  http://cryptopals.com/sets/1/challenges/3/
   """
   def my_decoder(ciphertext) do
-    ciphertext_list = decode_16_to_list(ciphertext)
-    
+    ciphertext_list = Base.decode16!(ciphertext) |> :binary.bin_to_list
+
     0..255 |> Enum.reduce({0, ""}, fn(x, acc) ->
       possible_plaintext = convert(<<x>>, ciphertext_list, String.length(ciphertext))
       score = score(possible_plaintext)
@@ -42,7 +42,7 @@ defmodule SetOne do
   @doc """
   Iterates over an Enum of ciphertexts searching for the highest scoring plaintext.
   Uses a parallel version of map for efficiency.
-  See http://cryptopals.com/sets/1/challenges/4/
+  http://cryptopals.com/sets/1/challenges/4/
   """
   def find_code(ciphertexts) do
     ciphertexts
@@ -97,6 +97,4 @@ defmodule SetOne do
     |> :binary.bin_to_list
     |> Enum.reduce(fn(x, score) -> score + Map.get(Helpers.frequency_map, String.upcase(<<x>>), 0) end)
   end
-
-  defp decode_16_to_list(x), do: Base.decode16!(x) |> :binary.bin_to_list
 end
