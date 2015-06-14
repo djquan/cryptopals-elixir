@@ -1,5 +1,6 @@
 defmodule SetOne do
   use Bitwise;
+  import Helpers;
 
   @doc """
   Method to convert hex to base64.
@@ -46,7 +47,7 @@ defmodule SetOne do
   """
   def find_code(ciphertexts) do
     ciphertexts
-    |> Helpers.pmap(fn(x) -> my_decoder(String.upcase(x)) end)
+    |> pmap(fn(x) -> my_decoder(String.upcase(x)) end)
     |> Enum.max_by(fn({score, _word}) -> score end)
   end
 
@@ -95,6 +96,6 @@ defmodule SetOne do
   defp score(plaintext) do
     plaintext
     |> :binary.bin_to_list
-    |> Enum.reduce(fn(x, score) -> score + Map.get(Helpers.frequency_map, String.upcase(<<x>>), 0) end)
+    |> Enum.reduce(fn(x, score) -> score + Map.get(frequency_map, String.upcase(<<x>>), 0) end)
   end
 end
