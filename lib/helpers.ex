@@ -1,5 +1,74 @@
 defmodule Helpers do
-  # taken from Programming Elixir by Dave Thomas
+  use Bitwise
+
+  @doc """
+  Function that takes two lists of bytes of equal size
+  Returns a string of the bitwise XOR of the two arguments
+  
+  ### Examples
+    iex> Helpers.my_xor([1], [1]) 
+    <<0>>
+
+    iex> Helpers.my_xor([0], [1])
+    <<1>>
+  """
+  def my_xor(a, b) do
+    Enum.zip(a, b)
+    |> Enum.map(fn({x,y}) -> x ^^^ y end)
+    |> to_string
+  end
+
+  @doc """
+  Function that takes a single char and a given ciphertext as a list of bytes
+
+  Returns the ciphertext XORed against a list of the given char
+
+  ### Examples
+    iex> Helpers.convert(<<0>>, [0, 0])
+    <<0, 0>>
+
+    iex> Helpers.convert(<<0>>, [1, 1])
+    <<1, 1>>
+  """
+  def convert(char, ciphertext) do
+    String.duplicate(char, length(ciphertext))
+    |> :binary.bin_to_list
+    |> my_xor(ciphertext)
+  end
+
+  @doc """
+  Function that calculates a score that a given plaintext is in English.
+  Iterates through the plaintext and adds up the result of where the character lies on the frequency map
+
+  ### Examples
+  iex> Helpers.score("Dogs are better than cats") > Helpers.score("alfmlk20")
+  true
+  """
+  def score(plaintext) do
+    plaintext
+    |> :binary.bin_to_list
+    |> Enum.reduce(fn(x, score) -> score + Map.get(frequency_map, String.upcase(<<x>>), 0) end)
+  end
+
+  @doc """
+  Counts the number of bits in a given base 10 integer
+
+  ### Examples
+    iex> Helpers.count_bits(0)
+    0
+
+    iex> Helpers.count_bits(42) ## 00101010
+    3
+  """
+  def count_bits(bitstring) do
+    bits = for <<s::1 <- <<bitstring>> >>, do: s
+    Enum.sum bits
+  end
+
+  @doc """
+  A parallel map
+  Taken from Dave Thomas' Programming Elixir
+  """
   def pmap(collection, fun) do
     me = self
     collection
@@ -11,9 +80,11 @@ defmodule Helpers do
     end)
   end
 
-  # taken from http://www.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html
-  # added spaces with a weighted value
-  def frequency_map do
+  @doc """
+  Taken from http://www.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html
+  Added spaces with a weighted value
+  """
+  defp frequency_map do
     %{
       "E" => 21912,
       "T" => 16587,
