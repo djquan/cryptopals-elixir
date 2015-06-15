@@ -70,5 +70,6 @@ defmodule SetOne.ChallengeSix do
     |> Stream.chunk(block_size)
     |> Enum.take(2)
     |> hamming
+    |> div(block_size)
   end
 end
