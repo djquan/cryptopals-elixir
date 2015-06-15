@@ -8,7 +8,7 @@ defmodule SetOne.ChallengeFourTest do
   """
   test "can find one single byte XOR message in many" do
     expected_result = "Now that the party is jumping\n"
-    {_, result}     = File.read!("test/ciphertexts.txt")
+    {_, result}     = File.read!("test/set_1/c4_ciphertexts.txt")
                       |> String.split
                       |> find_code
 
