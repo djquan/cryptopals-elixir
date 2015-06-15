@@ -1,2 +1,0 @@
-defmodule Cryptopals do
-end
