@@ -49,24 +49,9 @@ defmodule SetOne.ChallengeSix do
   def hamming(a, b) do
     Enum.zip(a,b)
     |> Enum.map(fn({x,y}) -> x ^^^ y end)
-    |> Enum.reduce(0, fn(x, acc) -> acc + count_bits(x) end)
+    |> Enum.reduce(0, fn(x, acc) -> acc + Helpers.count_bits(x) end)
   end
 
   defp hamming({a, b}), do: hamming(a,b)
   defp hamming(_), do: 0
-
-  @doc """
-  Counts the number of bits in a given base 10 integer
-
-  ### Examples
-    iex> SetOne.ChallengeSix.count_bits(0)
-    0
-
-    iex> SetOne.ChallengeSix.count_bits(42) ## 00101010
-    3
-  """
-  def count_bits(bitstring) do
-    bits = for <<s::1 <- <<bitstring>> >>, do: s
-    Enum.sum bits
-  end
 end

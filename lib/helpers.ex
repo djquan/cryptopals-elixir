@@ -51,6 +51,21 @@ defmodule Helpers do
   end
 
   @doc """
+  Counts the number of bits in a given base 10 integer
+
+  ### Examples
+    iex> Helpers.count_bits(0)
+    0
+
+    iex> Helpers.count_bits(42) ## 00101010
+    3
+  """
+  def count_bits(bitstring) do
+    bits = for <<s::1 <- <<bitstring>> >>, do: s
+    Enum.sum bits
+  end
+
+  @doc """
   A parallel map
   Taken from Dave Thomas' Programming Elixir
   """
@@ -65,7 +80,7 @@ defmodule Helpers do
     end)
   end
 
-  @doc """
+  """
   Taken from http://www.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html
   Added spaces with a weighted value
   """

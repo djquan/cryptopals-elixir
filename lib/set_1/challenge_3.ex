@@ -9,7 +9,6 @@ defmodule SetOne.ChallengeThree do
   """
   def my_decoder(ciphertext) do
     ciphertext_list = Base.decode16!(ciphertext) |> :binary.bin_to_list
-    ciphertext_length = String.length(ciphertext)
 
     0..255 |> Enum.reduce({0, ""}, fn(x, acc) ->
       plaintext = Helpers.convert(<<x>>, ciphertext_list)
