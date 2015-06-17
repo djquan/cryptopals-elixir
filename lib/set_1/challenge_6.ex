@@ -13,6 +13,22 @@ defmodule SetOne.ChallengeSix do
   end
 
   @doc """
+  Calculates the normalized averages of the hamming distances
+  http://cryptopals.com/sets/1/challenges/6/
+  """
+  def calculate_block_distance(block_size, ciphertext) do
+    blocks = ciphertext
+    |> :binary.bin_to_list
+    |> Enum.chunk(block_size)
+
+    blocks
+    |> Enum.zip(tl(blocks))
+    |> Enum.map(&(hamming(&1)))
+    |> Enum.sum
+    |> :erlang./(length(blocks) * block_size)
+  end
+
+  @doc """
   Calcualtes the Hamming Distance of two strings
   http://cryptopals.com/sets/1/challenges/6/
 
@@ -36,7 +52,8 @@ defmodule SetOne.ChallengeSix do
     |> Enum.reduce(0, fn(x, acc) -> acc + count_bits(x) end)
   end
 
-  defp hamming([a, b]), do: hamming(a,b)
+  defp hamming({a, b}), do: hamming(a,b)
+  defp hamming(_), do: 0
 
   @doc """
   Counts the number of bits in a given base 10 integer
@@ -51,25 +68,5 @@ defmodule SetOne.ChallengeSix do
   def count_bits(bitstring) do
     bits = for <<s::1 <- <<bitstring>> >>, do: s
     Enum.sum bits
-  end
-
-  @doc """
-  Calcualtes the Hamming Distance of the first two block_sizes of a given ciphertext
-  http://cryptopals.com/sets/1/challenges/6/
-
-  ### Examples
-    iex> SetOne.ChallengeSix.calculate_block_distance(1, "aa")
-    0
-
-    iex> SetOne.ChallengeSix.calculate_block_distance(1, "01")
-    1
-  """
-  def calculate_block_distance(block_size, ciphertext) do
-    ciphertext
-    |> :binary.bin_to_list
-    |> Stream.chunk(block_size)
-    |> Enum.take(2)
-    |> hamming
-    |> div(block_size)
   end
 end

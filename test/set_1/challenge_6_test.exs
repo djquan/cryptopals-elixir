@@ -7,10 +7,9 @@ defmodule SetOne.ChallengeSixTest do
   @doc """
   """
   test "can guess the keysizes on a given string " do
-    expected_result = [{5,1}, {2,2}, {3,2}]
     result          = guess_keysizes(ciphertext)
 
-    assert expected_result == result
+    assert 29 == elem(hd(result), 0)
   end
 
   @doc"""
