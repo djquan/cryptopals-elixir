@@ -1,31 +1,39 @@
 defmodule SetOne.ChallengeSix do
   use Bitwise
+  alias SetOne.ChallengeThree, as: ChallengeThree
 
   @doc """
-
+  Attempts to find the key of a given ciphertext encrypted with repeating XOR.
+  http://cryptopals.com/sets/1/challenges/6/
   """
-  def break_repeating_xor(ciphertext) do
-    {keysize, _} = hd(guess_keysizes(ciphertext))
+  def find_key_repeating_xor(ciphertext) do
+    guess_keysizes(ciphertext)
+    |> Helpers.pmap(&(find_key_repeating_xor(ciphertext, &1)))
+  end
 
-    blocks = ciphertext
+  def find_key_repeating_xor(ciphertext, {keysize, _}) do
+    ciphertext
     |> :binary.bin_to_list
     |> Enum.chunk(keysize)
+    |> Helpers.transpose
+    |> Helpers.pmap(fn(list) ->
+      {key, _, _} = ChallengeThree.my_decoder(list)
+      key
+    end)
   end
 
   @doc """
-  Attempts to guess the keysize by calculating the hamming distance of blocks and picking the three smallest
-  http://cryptopals.com/sets/1/challenges/6/
+  Attempts to guess the keysize by calculating the average hamming distance of blocks and picking the three smallest
   """
   def guess_keysizes(ciphertext) do
     (2..40)
-    |> Stream.map(&({&1, calculate_block_distance(&1, ciphertext)}))
+    |> Helpers.pmap(&({&1, calculate_block_distance(&1, ciphertext)}))
     |> Enum.sort_by(fn ({_, distance}) -> distance end)
     |> Enum.take(3)
   end
 
   @doc """
   Calculates the normalized averages of the hamming distances
-  http://cryptopals.com/sets/1/challenges/6/
   """
   def calculate_block_distance(block_size, ciphertext) do
     ciphertext
@@ -41,7 +49,6 @@ defmodule SetOne.ChallengeSix do
   defp sum_hamming([first | tail]) do
     (hamming(first, hd(tail)) / length(first)) + sum_hamming(tail)
   end
-
 
   @doc """
   Calcualtes the Hamming Distance of two strings

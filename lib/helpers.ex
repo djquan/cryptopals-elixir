@@ -80,6 +80,19 @@ defmodule Helpers do
     end)
   end
 
+  def transpose([[]|_]), do: []
+
+  @doc """
+  Transposes a list of lists
+
+  ### Examples
+    iex> Helpers.transpose([[1,2,3], [4,5,6]])
+    [[1,4],[2,5],[3,6]]
+  """
+  def transpose(lists) do
+   [Enum.map(lists, &hd/1) | transpose(Enum.map(lists, &tl/1))]
+  end
+
   """
   Taken from http://www.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html
   Added spaces with a weighted value
