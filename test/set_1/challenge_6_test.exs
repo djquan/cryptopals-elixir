@@ -3,8 +3,8 @@ defmodule SetOne.ChallengeSixTest do
   import SetOne.ChallengeSix
   doctest SetOne.ChallengeSix
 
-  test "can break repeating xor encryption" do
-    # IO.inspect(break_repeating_xor)
+  test "find the key of a ciphertext encrypted with repeating XOR" do
+    assert 'Terminator X: Bring the noise' == hd(find_key_repeating_xor(ciphertext))
   end
 
   test "can guess the keysizes on a given string " do
