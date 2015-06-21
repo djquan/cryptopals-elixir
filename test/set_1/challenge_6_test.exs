@@ -3,19 +3,15 @@ defmodule SetOne.ChallengeSixTest do
   import SetOne.ChallengeSix
   doctest SetOne.ChallengeSix
 
+  test "can break repeating xor encryption" do
+    # IO.inspect(break_repeating_xor)
+  end
 
-  @doc """
-  """
   test "can guess the keysizes on a given string " do
     result          = guess_keysizes(ciphertext)
-
     assert 29 == elem(hd(result), 0)
   end
 
-  @doc"""
-  See   
-  http://cryptopals.com/sets/1/challenges/6/
-  """
   test "can calculate the hamming distance" do
     assert hamming("this is a test", "wokka wokka!!!") == 37
   end

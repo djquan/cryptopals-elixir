@@ -2,6 +2,17 @@ defmodule SetOne.ChallengeSix do
   use Bitwise
 
   @doc """
+
+  """
+  def break_repeating_xor(ciphertext) do
+    {keysize, _} = hd(guess_keysizes(ciphertext))
+
+    blocks = ciphertext
+    |> :binary.bin_to_list
+    |> Enum.chunk(keysize)
+  end
+
+  @doc """
   Attempts to guess the keysize by calculating the hamming distance of blocks and picking the three smallest
   http://cryptopals.com/sets/1/challenges/6/
   """
