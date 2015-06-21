@@ -17,16 +17,20 @@ defmodule SetOne.ChallengeSix do
   http://cryptopals.com/sets/1/challenges/6/
   """
   def calculate_block_distance(block_size, ciphertext) do
-    blocks = ciphertext
+    ciphertext
     |> :binary.bin_to_list
     |> Enum.chunk(block_size)
-
-    blocks
-    |> Enum.zip(tl(blocks))
-    |> Enum.map(&(hamming(&1)))
-    |> Enum.sum
-    |> :erlang./(length(blocks) * block_size)
+    |> sum_hamming_and_average
   end
+
+  defp sum_hamming_and_average(blocks), do: sum_hamming(blocks) / length(blocks)
+
+  defp sum_hamming([first]), do: 0
+
+  defp sum_hamming([first | tail]) do
+    (hamming(first, hd(tail)) / length(first)) + sum_hamming(tail)
+  end
+
 
   @doc """
   Calcualtes the Hamming Distance of two strings
@@ -53,5 +57,6 @@ defmodule SetOne.ChallengeSix do
   end
 
   defp hamming({a, b}), do: hamming(a,b)
+
   defp hamming(_), do: 0
 end

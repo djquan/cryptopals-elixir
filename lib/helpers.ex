@@ -4,9 +4,9 @@ defmodule Helpers do
   @doc """
   Function that takes two lists of bytes of equal size
   Returns a string of the bitwise XOR of the two arguments
-  
+
   ### Examples
-    iex> Helpers.my_xor([1], [1]) 
+    iex> Helpers.my_xor([1], [1])
     <<0>>
 
     iex> Helpers.my_xor([0], [1])
