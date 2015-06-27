@@ -8,7 +8,7 @@ defmodule SetOne.ChallengeSixTest do
   end
 
   test "can guess the keysizes on a given string " do
-    result          = guess_keysizes(ciphertext)
+    result = guess_keysizes(ciphertext)
     assert 29 == elem(hd(result), 0)
   end
 
