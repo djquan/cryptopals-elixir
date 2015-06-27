@@ -44,7 +44,7 @@ defmodule SetOne.ChallengeSix do
 
   defp sum_hamming_and_average(blocks), do: sum_hamming(blocks) / length(blocks)
 
-  defp sum_hamming([first]), do: 0
+  defp sum_hamming([_first]), do: 0
 
   defp sum_hamming([first | tail]) do
     (hamming(first, hd(tail)) / length(first)) + sum_hamming(tail)

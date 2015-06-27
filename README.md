@@ -11,4 +11,5 @@ Going through http://cryptopals.com/ in Elixir
 - Five - https://github.com/djquan/cryptopals-elixir/blob/master/lib/set_1/challenge_5.ex
 - Six - https://github.com/djquan/cryptopals-elixir/blob/master/lib/set_1/challenge_6.ex
 - Seven - https://github.com/djquan/cryptopals-elixir/blob/master/lib/set_1/challenge_7.ex
+- Eight - https://github.com/djquan/cryptopals-elixir/blob/master/lib/set_1/challenge_8.ex
 
