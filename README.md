@@ -13,3 +13,7 @@ Going through http://cryptopals.com/ in Elixir
 - Seven - https://github.com/djquan/cryptopals-elixir/blob/master/lib/set_1/challenge_7.ex
 - Eight - https://github.com/djquan/cryptopals-elixir/blob/master/lib/set_1/challenge_8.ex
 
+
+## Set Two
+- One - https://github.com/djquan/cryptopals-elixir/blob/master/lib/set_2/challenge_1.ex
+
