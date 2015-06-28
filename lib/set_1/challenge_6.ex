@@ -73,8 +73,4 @@ defmodule SetOne.ChallengeSix do
     |> Enum.map(fn({x,y}) -> x ^^^ y end)
     |> Enum.reduce(0, fn(x, acc) -> acc + Helpers.count_bits(x) end)
   end
-
-  defp hamming({a, b}), do: hamming(a,b)
-
-  defp hamming(_), do: 0
 end
