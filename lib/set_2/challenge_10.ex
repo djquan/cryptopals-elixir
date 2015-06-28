@@ -41,4 +41,28 @@ defmodule SetTwo.ChallengeTen do
     |> elem(0)
     |> String.replace(~r/\x00|\x04/, "")
   end
+
+  @doc """
+  Encrypts a block of plaintext XORed with a previous_encrypted block with a given cipher
+  """
+  def encrypt_aes_128_cbc(plaintext_block, cipher, previous_encrypted_block) when is_list(plaintext_block) do
+    plaintext_block
+    |> Helpers.my_xor(:binary.bin_to_list(previous_encrypted_block))
+    |> encrypt_aes_128_ecb(cipher)
+  end
+
+  @doc """
+  Encrypts plaintext in aes_128_cbc
+  http://cryptopals.com/sets/2/challenges/10/
+  """
+  def encrypt_aes_128_cbc(plaintext, cipher, iv) do
+    plaintext
+    |> :binary.bin_to_list
+    |> Stream.chunk(16, 16, :binary.bin_to_list(:binary.copy<<4>>, 15))
+    |> Enum.reduce({"", iv}, fn(plaintext_block, {ciphertext, previous_encrypted_block}) ->
+      block_ciphertext = encrypt_aes_128_cbc(plaintext_block, cipher, previous_encrypted_block)
+      {ciphertext <> block_ciphertext, block_ciphertext}
+    end)
+    |> elem(0)
+  end
 end
