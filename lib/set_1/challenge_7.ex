@@ -9,6 +9,7 @@ defmodule SetOne.ChallengeSeven do
     |> Enum.chunk(16)
     |> Enum.map(&(decrypt_aes_128_ecb(&1, cipher)))
     |> Enum.join("")
+    |> String.replace(~r/\x00|\x04/, "")
   end
 
   def decrypt_aes_128_ecb(ciphertext, cipher) when is_list(ciphertext) do

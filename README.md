@@ -16,4 +16,5 @@ Going through http://cryptopals.com/ in Elixir
 
 ## Set Two
 - Nine - https://github.com/djquan/cryptopals-elixir/blob/master/lib/set_2/challenge_9.ex
+- Ten - https://github.com/djquan/cryptopals-elixir/blob/master/lib/set_2/challenge_10.ex
 
