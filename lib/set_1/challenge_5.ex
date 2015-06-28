@@ -7,7 +7,7 @@ defmodule SetOne.ChallengeFive do
   """
   def repeating_xor_encrypt(plaintext, cipher) do
     cipher
-    |> String.duplicate(String.length(plaintext))
+    |> :binary.copy(String.length(plaintext))
     |> :binary.bin_to_list
     |> Helpers.my_xor(:binary.bin_to_list(plaintext))
     |> Base.encode16

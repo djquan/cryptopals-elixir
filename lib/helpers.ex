@@ -15,7 +15,7 @@ defmodule Helpers do
   def my_xor(a, b) do
     Enum.zip(a, b)
     |> Enum.map(fn({x,y}) -> x ^^^ y end)
-    |> to_string
+    |> :binary.list_to_bin
   end
 
   @doc """
@@ -31,7 +31,7 @@ defmodule Helpers do
     <<1, 1>>
   """
   def convert(char, ciphertext) do
-    String.duplicate(char, length(ciphertext))
+    :binary.copy(char, length(ciphertext))
     |> :binary.bin_to_list
     |> my_xor(ciphertext)
   end

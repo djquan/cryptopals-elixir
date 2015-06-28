@@ -62,8 +62,8 @@ defmodule SetOne.ChallengeSix do
     1
   """
   def hamming(first, second) when is_binary(first) and is_binary(second) do
-    a = String.to_char_list(first)
-    b = String.to_char_list(second)
+    a = :binary.bin_to_list(first)
+    b = :binary.bin_to_list(second)
 
     hamming(a, b)
   end

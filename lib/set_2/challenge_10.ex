@@ -8,13 +8,13 @@ defmodule SetTwo.ChallengeTen do
   def encrypt_aes_128_ecb(plaintext, cipher) when is_binary(plaintext) do
     plaintext
     |> :binary.bin_to_list
-    |> Enum.chunk(16, 16, :binary.bin_to_list(String.duplicate(<<0>>, 15)))
+    |> Enum.chunk(16, 16, :binary.bin_to_list(:binary.copy(<<0>>, 15)))
     |> Enum.map(&(encrypt_aes_128_ecb(&1, cipher)))
     |> Enum.join("")
   end
 
   def encrypt_aes_128_ecb(plaintext, cipher) when is_list(plaintext) do
-    :crypto.block_encrypt(:aes_cbc128, cipher, String.duplicate(<<0>>, 16), plaintext)
+    :crypto.block_encrypt(:aes_cbc128, cipher, :binary.copy(<<0>>, 16), plaintext)
   end
 
   @doc """
@@ -33,7 +33,7 @@ defmodule SetTwo.ChallengeTen do
   def decrypt_aes_128_cbc(ciphertext, cipher, iv) do
     ciphertext
     |> :binary.bin_to_list
-    |> Stream.chunk(16, 16, :binary.bin_to_list(String.duplicate(<<0>>, 15)))
+    |> Stream.chunk(16, 16, :binary.bin_to_list(:binary.copy(<<0>>, 15)))
     |> Enum.reduce({"", iv}, fn(encrypted_block, {plaintext, previous_encrypted_block}) ->
       block_plaintext = decrypt_aes_128_cbc(encrypted_block, cipher, previous_encrypted_block)
       {plaintext <> block_plaintext, :binary.list_to_bin(encrypted_block)}
