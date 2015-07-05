@@ -3,7 +3,6 @@ defmodule SetTwo.ChallengeTwelve do
   @key SetTwo.ChallengeEleven.generate_random_aes_key
 
   def crack_code do
-    plaintext = ""
     ciphertext = encryption_oracle_2("")
     if SetOne.ChallengeEight.encrypted_aes_ecb?(ciphertext) do
       raise ArgumentError, message: "Not ECB encrypted"
@@ -12,7 +11,11 @@ defmodule SetTwo.ChallengeTwelve do
     block_size = determine_block_size(ciphertext)
     input_block = :binary.copy("A", block_size - 1)
 
-    brute_force_decrypt(block_size, "")
+    (1..num_blocks(ciphertext, block_size))
+    |> Enum.reduce("", fn(x, acc) ->
+      acc <> brute_force_decrypt(x * block_size, acc)
+    end)
+    |> String.replace(<<0>>, "")
   end
 
   def brute_force_decrypt(block_size, known) when byte_size(known) == block_size, do: ""
@@ -22,7 +25,7 @@ defmodule SetTwo.ChallengeTwelve do
     sample = Kernel.binary_part(encryption_oracle_2(input_block), 0, block_size)
     table = (0..255)
     |> Enum.reduce(%{}, fn(x, acc) ->
-        block = Kernel.binary_part(encryption_oracle_2(input_block <> known <> <<x>>), 0, block_size)
+      block = Kernel.binary_part(encryption_oracle_2(input_block <> known <> <<x>>), 0, block_size)
       Map.put(acc, block, <<x>>)
     end)
 
