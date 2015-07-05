@@ -12,10 +12,13 @@ defmodule SetTwo.ChallengeTwelve do
     block_size = determine_block_size(ciphertext)
     input_block = :binary.copy("A", block_size - 1)
 
-    brute_force_decrypt(input_block, block_size, "")
+    brute_force_decrypt(block_size, "")
   end
 
-  def brute_force_decrypt(input_block, block_size, known) do
+  def brute_force_decrypt(block_size, known) when byte_size(known) == block_size, do: ""
+
+  def brute_force_decrypt(block_size, known) do
+    input_block = :binary.copy("A", block_size - 1 - byte_size(known))
     sample = Kernel.binary_part(encryption_oracle_2(input_block), 0, block_size)
     table = (0..255)
     |> Enum.reduce(%{}, fn(x, acc) ->
@@ -23,17 +26,8 @@ defmodule SetTwo.ChallengeTwelve do
       Map.put(acc, block, <<x>>)
     end)
 
-    result = Map.get(table, sample)
-    if result != nil do
-      known = known <> result
-      if byte_size(input_block) == 1 do
-        result
-      else
-        result <> brute_force_decrypt(Kernel.binary_part(input_block, 0, byte_size(input_block) - 1), block_size, known)
-      end
-    else
-      ""
-    end
+    result = Map.get(table, sample) || ""
+    result <> brute_force_decrypt(block_size, known <> result)
   end
 
   @doc """
