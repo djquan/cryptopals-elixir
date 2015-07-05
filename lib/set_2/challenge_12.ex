@@ -27,18 +27,19 @@ defmodule SetTwo.ChallengeTwelve do
   Brute force decrypts to discover one byte of plaintext.
   input_block is a mixture of A's and what is already known
   The total size of input_block is one short of the byte to be discovered.
+  Iterates through possible combinations until it arrives at a ciphertext that matches
   """
   def brute_force_decrypt(block_size, known) do
     input_block = :binary.copy("A", block_size - 1 - byte_size(known))
     sample = Kernel.binary_part(encryption_oracle_2(input_block), 0, block_size)
-    table = (0..255)
-    |> Enum.reduce(%{}, fn(x, acc) ->
-      block = Kernel.binary_part(encryption_oracle_2(input_block <> known <> <<x>>), 0, block_size)
-      Map.put(acc, block, <<x>>)
-    end)
 
-    result = Map.get(table, sample) || ""
-    result <> brute_force_decrypt(block_size, known <> result)
+    result = (0..255)
+    |> Stream.filter(fn(x) ->
+      sample == Kernel.binary_part(encryption_oracle_2(input_block <> known <> <<x>>), 0, block_size)
+    end)
+    |> Enum.take(1) |> hd
+
+    <<result>> <> brute_force_decrypt(block_size, known <> <<result>>)
   end
 
   @doc """
