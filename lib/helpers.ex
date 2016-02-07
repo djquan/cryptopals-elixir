@@ -12,6 +12,7 @@ defmodule Helpers do
     iex> Helpers.my_xor([0], [1])
     <<1>>
   """
+  @spec my_xor([byte], [byte]) :: binary
   def my_xor(a, b) do
     Enum.zip(a, b)
     |> Enum.map(fn({x,y}) -> x ^^^ y end)
@@ -30,6 +31,7 @@ defmodule Helpers do
     iex> Helpers.convert(<<0>>, [1, 1])
     <<1, 1>>
   """
+  @spec convert(binary, [byte]) :: binary
   def convert(char, ciphertext) do
     :binary.copy(char, length(ciphertext))
     |> :binary.bin_to_list
@@ -44,6 +46,7 @@ defmodule Helpers do
   iex> Helpers.score("Dogs are better than cats") > Helpers.score("alfmlk20")
   true
   """
+  @spec score(binary) :: integer
   def score(plaintext) do
     plaintext
     |> :binary.bin_to_list
@@ -60,6 +63,7 @@ defmodule Helpers do
     iex> Helpers.count_bits(42) ## 00101010
     3
   """
+  @spec count_bits(integer) :: integer
   def count_bits(bitstring) do
     bits = for <<s::1 <- <<bitstring>> >>, do: s
     Enum.sum bits
@@ -89,15 +93,14 @@ defmodule Helpers do
     iex> Helpers.transpose([[1,2,3], [4,5,6]])
     [[1,4],[2,5],[3,6]]
   """
+  @spec transpose([[any]]) :: [[any]]
   def transpose(lists) do
    [Enum.map(lists, &hd/1) | transpose(Enum.map(lists, &tl/1))]
   end
 
-  """
-  Taken from http://www.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html
-  Added spaces with a weighted value
-  """
   defp frequency_map do
+    # Taken from http://www.math.cornell.edu/~mec/2003-2004/cryptography/subs/frequencies.html
+    # Added spaces with a weighted value
     %{
       "E" => 21912,
       "T" => 16587,
