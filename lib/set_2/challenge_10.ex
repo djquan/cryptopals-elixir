@@ -5,6 +5,7 @@ defmodule SetTwo.ChallengeTen do
   Encrypts a given plaintext with aes_128_ecb
   http://cryptopals.com/sets/2/challenges/10
   """
+  @spec encrypt_aes_128_ecb(binary, binary) :: binary
   def encrypt_aes_128_ecb(plaintext, cipher) when is_binary(plaintext) do
     plaintext
     |> :binary.bin_to_list
@@ -13,6 +14,7 @@ defmodule SetTwo.ChallengeTen do
     |> Enum.join("")
   end
 
+  @spec encrypt_aes_128_ecb([byte], binary) :: binary
   def encrypt_aes_128_ecb(plaintext, cipher) when is_list(plaintext) do
     :crypto.block_encrypt(:aes_cbc128, cipher, :binary.copy(<<0>>, 16), plaintext)
   end
@@ -20,8 +22,10 @@ defmodule SetTwo.ChallengeTen do
   @doc """
   Decrypts an encrypted (aes 128 cbc) block
   """
+  @spec decrypt_aes_128_cbc([byte], binary, binary) :: binary
   def decrypt_aes_128_cbc(encrypted_block, cipher, previous_encrypted_block) when is_list(encrypted_block) do
     decrypt_aes_128_ecb(encrypted_block, cipher)
+
     |> :binary.bin_to_list
     |> Helpers.my_xor(:binary.bin_to_list(previous_encrypted_block))
   end
@@ -30,6 +34,7 @@ defmodule SetTwo.ChallengeTen do
   Decrypts ciphertext encrypted with aes_128_cbc. Takes an initialization vector,
   http://cryptopals.com/sets/2/challenges/10/
   """
+  @spec decrypt_aes_128_cbc(binary, binary, binary) :: binary
   def decrypt_aes_128_cbc(ciphertext, cipher, iv) do
     ciphertext
     |> :binary.bin_to_list
@@ -45,6 +50,7 @@ defmodule SetTwo.ChallengeTen do
   @doc """
   Encrypts a block of plaintext XORed with a previous_encrypted block with a given cipher
   """
+  @spec encrypt_aes_128_cbc([byte], binary, binary) :: binary
   def encrypt_aes_128_cbc(plaintext_block, cipher, previous_encrypted_block) when is_list(plaintext_block) do
     plaintext_block
     |> Helpers.my_xor(:binary.bin_to_list(previous_encrypted_block))
@@ -55,6 +61,7 @@ defmodule SetTwo.ChallengeTen do
   Encrypts plaintext in aes_128_cbc
   http://cryptopals.com/sets/2/challenges/10/
   """
+  @spec encrypt_aes_128_cbc(binary, binary, binary) :: binary
   def encrypt_aes_128_cbc(plaintext, cipher, iv) do
     plaintext
     |> :binary.bin_to_list

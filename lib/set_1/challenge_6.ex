@@ -6,6 +6,7 @@ defmodule SetOne.ChallengeSix do
   Attempts to find the key of a given ciphertext encrypted with repeating XOR.
   http://cryptopals.com/sets/1/challenges/6/
   """
+  # @spec find_key_repeating_xor(binary) :: [binary]
   def find_key_repeating_xor(ciphertext) do
     guess_keysizes(ciphertext)
     |> Helpers.pmap(&(find_key_repeating_xor(ciphertext, &1)))
@@ -25,16 +26,18 @@ defmodule SetOne.ChallengeSix do
   @doc """
   Attempts to guess the keysize by calculating the average hamming distance of blocks and picking the three smallest
   """
+  @spec guess_keysizes(binary) :: [{pos_integer, pos_integer}]
   def guess_keysizes(ciphertext) do
     (2..40)
     |> Helpers.pmap(&({&1, calculate_block_distance(&1, ciphertext)}))
-    |> Enum.sort_by(fn ({_, distance}) -> distance end)
+    |> Enum.sort_by(fn ({_keysize, distance}) -> distance end)
     |> Enum.take(3)
   end
 
   @doc """
   Calculates the normalized averages of the hamming distances
   """
+  @spec calculate_block_distance(pos_integer, binary) :: float
   def calculate_block_distance(block_size, ciphertext) do
     ciphertext
     |> :binary.bin_to_list
@@ -61,6 +64,7 @@ defmodule SetOne.ChallengeSix do
     iex> SetOne.ChallengeSix.hamming("0", "1")
     1
   """
+  @spec hamming(binary, binary) :: pos_integer
   def hamming(first, second) when is_binary(first) and is_binary(second) do
     a = :binary.bin_to_list(first)
     b = :binary.bin_to_list(second)
@@ -68,6 +72,7 @@ defmodule SetOne.ChallengeSix do
     hamming(a, b)
   end
 
+  @spec hamming([byte], [byte]) :: pos_integer
   def hamming(a, b) do
     Enum.zip(a,b)
     |> Enum.map(fn({x,y}) -> x ^^^ y end)

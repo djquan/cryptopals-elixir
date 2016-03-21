@@ -7,12 +7,14 @@ defmodule SetTwo.ChallengeEleven do
   Uses a random cipher
   http://cryptopals.com/sets/2/challenges/11
   """
+  @spec encryption_oracle(binary) :: {<<_::24>>, binary}
   def encryption_oracle(plaintext) do
     plaintext
     |> pad_random
     |> encrypt_random_ecb_cbc
   end
 
+  @spec encrypt_random_ecb_cbc(binary) :: {<<_::24>>, binary}
   def encrypt_random_ecb_cbc(plaintext) do
     cipher = generate_random_aes_key
     if (:random.uniform(2) == 1) do
@@ -27,6 +29,7 @@ defmodule SetTwo.ChallengeEleven do
   Leverages Challenge Eight to do so.
   http://cryptopals.com/sets/2/challenges/11
   """
+  @spec discover_type(binary) :: <<_::24>>
   def discover_type(ciphertext) do
     if SetOne.ChallengeEight.encrypted_aes_ecb?(ciphertext), do: "ecb", else: "cbc"
   end
@@ -38,6 +41,7 @@ defmodule SetTwo.ChallengeEleven do
   iex> Regex.match?(~r/.{5,10}plaintext.{5,10}/s, SetTwo.ChallengeEleven.pad_random("plaintext"))
   true
   """
+  @spec pad_random(binary) :: binary
   def pad_random(plaintext) do
     generate_random_bytes(:random.uniform(6) + 4)
     <> plaintext
@@ -47,6 +51,7 @@ defmodule SetTwo.ChallengeEleven do
   @doc """
   Generates a random AES key
   """
+  @spec generate_random_aes_key() :: binary
   def generate_random_aes_key, do: generate_random_bytes(16)
 
   defp generate_random_bytes(num) do

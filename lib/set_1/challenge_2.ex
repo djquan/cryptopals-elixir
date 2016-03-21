@@ -13,6 +13,7 @@ defmodule SetOne.ChallengeTwo do
     iex> SetOne.ChallengeTwo.my_hex_xor("1A", "1A")
     "00"
   """
+  @spec my_hex_xor(binary, binary) :: binary
   def my_hex_xor(a, b) do
     first  = Base.decode16!(a) |> :binary.bin_to_list
     second = Base.decode16!(b) |> :binary.bin_to_list

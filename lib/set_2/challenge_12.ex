@@ -6,6 +6,7 @@ defmodule SetTwo.ChallengeTwelve do
   Cracks and discovers the secret encrypted with encryption_oracle_2
   http://cryptopals.com/sets/2/challenges/12/
   """
+  @spec crack_code() :: binary
   def crack_code do
     ciphertext = encryption_oracle_2("")
     if SetOne.ChallengeEight.encrypted_aes_ecb?(ciphertext) do
@@ -29,6 +30,7 @@ defmodule SetTwo.ChallengeTwelve do
   The total size of input_block is one short of the byte to be discovered.
   Iterates through possible combinations until it arrives at a ciphertext that matches
   """
+  @spec brute_force_decrypt(pos_integer, binary) :: binary
   def brute_force_decrypt(block_size, known) do
     input_block = :binary.copy("A", block_size - 1 - byte_size(known))
     sample = Kernel.binary_part(encryption_oracle_2(input_block), 0, block_size)
@@ -51,6 +53,7 @@ defmodule SetTwo.ChallengeTwelve do
   iex> SetTwo.ChallengeTwelve.determine_block_size(ciphertext)
   16
   """
+  @spec determine_block_size(binary) :: pos_integer
   def determine_block_size(ciphertext) do
     (1..100)
     |> Stream.filter(fn(x) ->
@@ -64,6 +67,7 @@ defmodule SetTwo.ChallengeTwelve do
   An encryption oracle that takes plaintext, pads it with a secret
   It then encrypts it with a constant, random key.
   """
+  @spec encryption_oracle_2(binary) :: binary
   def encryption_oracle_2(plaintext) do
     plaintext
     |> pad_secret
@@ -74,6 +78,7 @@ defmodule SetTwo.ChallengeTwelve do
   Helper function
   Counts the number of blocks in a ciphertext when given the block size
   """
+  @spec num_blocks(binary, pos_integer) :: pos_integer
   def num_blocks(ciphertext, block_size) do
     ciphertext
     |> :binary.bin_to_list

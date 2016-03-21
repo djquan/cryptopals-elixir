@@ -7,6 +7,7 @@ defmodule SetOne.ChallengeFour do
   Uses a parallel version of map for efficiency.
   http://cryptopals.com/sets/1/challenges/4/
   """
+  @spec find_code([String.t]) :: {integer, integer, binary}
   def find_code(ciphertexts) do
     ciphertexts
     |> Helpers.pmap(fn(x) -> ChallengeThree.my_decoder(String.upcase(x)) end)
