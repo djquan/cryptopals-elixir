@@ -4,7 +4,7 @@ defmodule SetTwo.ChallengeElevenTest do
   doctest SetTwo.ChallengeEleven
 
   setup do
-    :random.seed(:erlang.timestamp)
+    :rand.seed(:exs1024)
     :ok
   end
 
