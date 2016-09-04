@@ -11,6 +11,7 @@ defmodule SetOne.ChallengeFive do
     |> :binary.copy(byte_size(plaintext))
     |> :binary.bin_to_list
     |> Helpers.my_xor(:binary.bin_to_list(plaintext))
+    |> :binary.list_to_bin
     |> Base.encode16
   end
 end

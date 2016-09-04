@@ -19,9 +19,7 @@ defmodule SetOne.ChallengeThree do
     0..255 |> Enum.reduce({0, 0, ""}, fn(x, acc) ->
       plaintext = Helpers.convert(<<x>>, ciphertext_list)
       score = Helpers.score(plaintext)
-      if score > elem(acc, 1), do: acc = {x, score, plaintext}
-
-      acc
+      if score > elem(acc, 1), do: {x, score, plaintext}, else: acc
     end)
   end
 end

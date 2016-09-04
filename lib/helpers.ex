@@ -3,20 +3,19 @@ defmodule Helpers do
 
   @doc """
   Function that takes two lists of bytes of equal size
-  Returns a string of the bitwise XOR of the two arguments
+  Returns a list of the bitwise XOR of the two arguments
 
   ### Examples
     iex> Helpers.my_xor([1], [1])
-    <<0>>
+    [0]
 
     iex> Helpers.my_xor([0], [1])
-    <<1>>
+    [1]
   """
-  @spec my_xor([byte], [byte]) :: binary
+  @spec my_xor([byte], [byte]) :: [byte]
   def my_xor(a, b) do
     Enum.zip(a, b)
     |> Enum.map(fn({x,y}) -> x ^^^ y end)
-    |> :binary.list_to_bin
   end
 
   @doc """
@@ -36,6 +35,7 @@ defmodule Helpers do
     :binary.copy(char, length(ciphertext))
     |> :binary.bin_to_list
     |> my_xor(ciphertext)
+    |> :binary.list_to_bin
   end
 
   @doc """

@@ -28,6 +28,7 @@ defmodule SetTwo.ChallengeTen do
 
     |> :binary.bin_to_list
     |> Helpers.my_xor(:binary.bin_to_list(previous_encrypted_block))
+    |> :binary.list_to_bin
   end
 
   @doc """
@@ -54,6 +55,7 @@ defmodule SetTwo.ChallengeTen do
   def encrypt_aes_128_cbc(plaintext_block, cipher, previous_encrypted_block) when is_list(plaintext_block) do
     plaintext_block
     |> Helpers.my_xor(:binary.bin_to_list(previous_encrypted_block))
+    |> :binary.list_to_bin
     |> encrypt_aes_128_ecb(cipher)
   end
 
