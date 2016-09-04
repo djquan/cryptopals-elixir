@@ -13,7 +13,7 @@ defmodule Helpers do
     [1]
   """
   @spec my_xor([byte], [byte]) :: [byte]
-  def my_xor(a, b) do
+  def my_xor(a, b) when is_list(a) do
     Enum.zip(a, b)
     |> Enum.map(fn({x,y}) -> x ^^^ y end)
   end
@@ -24,18 +24,17 @@ defmodule Helpers do
   Returns the ciphertext XORed against a list of the given char
 
   ### Examples
-    iex> Helpers.convert(<<0>>, [0, 0])
-    <<0, 0>>
+    iex> Helpers.my_xor(<<0>>, [0, 0])
+    [0, 0]
 
-    iex> Helpers.convert(<<0>>, [1, 1])
-    <<1, 1>>
+    iex> Helpers.my_xor(<<0>>, [1, 1])
+    [1, 1]
   """
-  @spec convert(binary, [byte]) :: binary
-  def convert(char, ciphertext) do
+  @spec my_xor(binary, [byte]) :: [byte]
+  def my_xor(char, ciphertext) when is_binary(char) do
     :binary.copy(char, length(ciphertext))
     |> :binary.bin_to_list
     |> my_xor(ciphertext)
-    |> :binary.list_to_bin
   end
 
   @doc """
@@ -43,8 +42,10 @@ defmodule Helpers do
   Iterates through the plaintext and adds up the result of where the character lies on the frequency map
 
   ### Examples
-  iex> Helpers.score("Dogs are better than cats") > Helpers.score("alfmlk20")
-  true
+
+    iex> Helpers.score("Dogs are better than cats") > Helpers.score("alfmlk20")
+    true
+
   """
   @spec score(binary) :: integer
   def score(plaintext) do
