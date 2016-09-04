@@ -5,7 +5,7 @@ defmodule SetOne.ChallengeFour do
   @doc """
   Iterates over an Enum of ciphertexts searching for the highest scoring plaintext.
   Uses a parallel version of map for efficiency.
-  http://cryptopals.com/sets/1/challenges/4/
+  http://cryptopals.com/sets/1/challenges/4
   """
   @spec find_code([binary]) :: {integer, integer, binary}
   def find_code(ciphertexts) do

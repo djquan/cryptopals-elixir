@@ -5,7 +5,7 @@ defmodule SetOne.ChallengeThree do
   Decodes a given ciphertext that was encrypted with a single byte.
   Iterates over every possible single byte cipher and tries XORing them.
   Calculates a score based on letter frequency and returns a tuple with the highest score/plaintext
-  http://cryptopals.com/sets/1/challenges/3/
+  http://cryptopals.com/sets/1/challenges/3
 
   ### Examples
 
