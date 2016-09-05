@@ -4,9 +4,9 @@ defmodule SetOne.ChallengeSix do
 
   @doc """
   Attempts to find the key of a given ciphertext encrypted with repeating XOR.
-  http://cryptopals.com/sets/1/challenges/6/
+  http://cryptopals.com/sets/1/challenges/6
   """
-  # @spec find_key_repeating_xor(binary) :: [binary]
+  @spec find_key_repeating_xor(binary) :: [binary]
   def find_key_repeating_xor(ciphertext) do
     guess_keysizes(ciphertext)
     |> Helpers.pmap(&(find_key_repeating_xor(ciphertext, &1)))

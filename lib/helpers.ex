@@ -66,7 +66,7 @@ defmodule Helpers do
   """
   @spec count_bits(integer) :: integer
   def count_bits(bitstring) do
-    bits = for <<s::1 <- <<bitstring>> >>, do: s
+    bits = for <<bit::1 <- <<bitstring>> >>, do: bit
     Enum.sum bits
   end
 
