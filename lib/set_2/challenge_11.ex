@@ -16,11 +16,11 @@ defmodule SetTwo.ChallengeEleven do
 
   @spec encrypt_random_ecb_cbc(binary) :: {<<_::24>>, binary}
   def encrypt_random_ecb_cbc(plaintext) do
-    cipher = generate_random_aes_key
+    cipher = generate_random_aes_key()
     if (:rand.uniform(2) == 1) do
       {"ecb", encrypt_aes_128_ecb(plaintext, cipher) }
     else
-      {"cbc", encrypt_aes_128_cbc(plaintext, cipher, generate_random_aes_key)}
+      {"cbc", encrypt_aes_128_cbc(plaintext, cipher, generate_random_aes_key())}
     end
   end
 

@@ -5,7 +5,7 @@ defmodule SetOne.ChallengeSevenTest do
 
   test "decrypts ciphertext encrypted with AES 128 ECB" do
     expected_result = "I'm back and I'm ringin' the bell"
-    result = decrypt_aes_128_ecb(ciphertext, "YELLOW SUBMARINE")
+    result = decrypt_aes_128_ecb(ciphertext(), "YELLOW SUBMARINE")
 
     assert String.starts_with?(result, expected_result)
   end

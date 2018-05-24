@@ -4,11 +4,11 @@ defmodule SetOne.ChallengeSixTest do
   doctest SetOne.ChallengeSix
 
   test "find the key of a ciphertext encrypted with repeating XOR" do
-    assert 'Terminator X: Bring the noise' == hd(find_key_repeating_xor(ciphertext))
+    assert 'Terminator X: Bring the noise' == hd(find_key_repeating_xor(ciphertext()))
   end
 
   test "can guess the keysizes on a given string " do
-    result = guess_keysizes(ciphertext)
+    result = guess_keysizes(ciphertext())
     assert 29 == elem(hd(result), 0)
   end
 

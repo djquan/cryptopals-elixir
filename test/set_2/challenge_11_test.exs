@@ -9,16 +9,16 @@ defmodule SetTwo.ChallengeElevenTest do
   end
 
   test "generates a random AES key" do
-    assert byte_size(generate_random_aes_key) == 16
+    assert byte_size(generate_random_aes_key()) == 16
   end
 
   test "encrypts either with cbc or ecb" do
-    {encryption_type, _ciphertext} = encrypt_random_ecb_cbc(bad_blood)
+    {encryption_type, _ciphertext} = encrypt_random_ecb_cbc(bad_blood())
     assert Regex.match?(~r/ecb|cbc/, encryption_type)
   end
 
   test "determines whether a ciphertext was encrypted with cbc or ecb" do
-    {encryption_type, ciphertext} = encryption_oracle(bad_blood)
+    {encryption_type, ciphertext} = encryption_oracle(bad_blood())
     assert encryption_type == discover_type(ciphertext)
   end
 

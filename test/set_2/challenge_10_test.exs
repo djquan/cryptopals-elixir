@@ -11,14 +11,14 @@ defmodule SetTwo.ChallengeTenTest do
   end
 
   test "decrypts the first block correctly" do
-    first_block = ciphertext |> :binary.bin_to_list |> Stream.chunk(16) |> Enum.take(1)
+    first_block = ciphertext() |> :binary.bin_to_list |> Stream.chunk(16) |> Enum.take(1)
     expected_result = "I'm back and I'm"
 
     assert decrypt_aes_128_cbc(first_block, "YELLOW SUBMARINE", :binary.copy(<<0>>, 16)) == expected_result
   end
 
   test "decrypts the entire ciphertext correctly" do
-    result = decrypt_aes_128_cbc(ciphertext, "YELLOW SUBMARINE", :binary.copy(<<0>>, 16))
+    result = decrypt_aes_128_cbc(ciphertext(), "YELLOW SUBMARINE", :binary.copy(<<0>>, 16))
 
     assert String.ends_with?(result, "Play that funky music \n")
   end

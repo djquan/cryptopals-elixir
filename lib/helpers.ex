@@ -51,7 +51,7 @@ defmodule Helpers do
   def score(plaintext) do
     plaintext
     |> :binary.bin_to_list
-    |> Enum.reduce(fn(x, score) -> score + Map.get(frequency_map, String.upcase(<<x>>), 0) end)
+    |> Enum.reduce(fn(x, score) -> score + Map.get(frequency_map(), String.upcase(<<x>>), 0) end)
   end
 
   @doc """
@@ -75,10 +75,10 @@ defmodule Helpers do
   Taken from Dave Thomas' Programming Elixir
   """
   def pmap(collection, fun) do
-    me = self
+    me = self()
     collection
     |> Enum.map(fn (elem) ->
-      spawn_link fn -> (send me, { self, fun.(elem) }) end
+      spawn_link fn -> (send me, { self(), fun.(elem) }) end
     end)
     |> Enum.map(fn (pid) ->
       receive do { ^pid, result } -> result end
