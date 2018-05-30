@@ -15,11 +15,11 @@ defmodule SetOne.ChallengeTwo do
   """
   @spec my_hex_xor(binary, binary) :: binary
   def my_hex_xor(a, b) do
-    first  = Base.decode16!(a) |> :binary.bin_to_list
-    second = Base.decode16!(b) |> :binary.bin_to_list
+    first = Base.decode16!(a) |> :binary.bin_to_list()
+    second = Base.decode16!(b) |> :binary.bin_to_list()
 
     Helpers.my_xor(first, second)
-    |> :binary.list_to_bin
-    |> Base.encode16
+    |> :binary.list_to_bin()
+    |> Base.encode16()
   end
 end

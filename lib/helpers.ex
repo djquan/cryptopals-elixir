@@ -15,7 +15,7 @@ defmodule Helpers do
   @spec my_xor([byte], [byte]) :: [byte]
   def my_xor(a, b) when is_list(a) do
     Enum.zip(a, b)
-    |> Enum.map(fn({x,y}) -> x ^^^ y end)
+    |> Enum.map(fn {x, y} -> x ^^^ y end)
   end
 
   @doc """
@@ -33,7 +33,7 @@ defmodule Helpers do
   @spec my_xor(binary, [byte]) :: [byte]
   def my_xor(char, ciphertext) when is_binary(char) do
     :binary.copy(char, length(ciphertext))
-    |> :binary.bin_to_list
+    |> :binary.bin_to_list()
     |> my_xor(ciphertext)
   end
 
@@ -50,8 +50,8 @@ defmodule Helpers do
   @spec score(binary) :: integer
   def score(plaintext) do
     plaintext
-    |> :binary.bin_to_list
-    |> Enum.reduce(fn(x, score) -> score + Map.get(frequency_map(), String.upcase(<<x>>), 0) end)
+    |> :binary.bin_to_list()
+    |> Enum.reduce(fn x, score -> score + Map.get(frequency_map(), String.upcase(<<x>>), 0) end)
   end
 
   @doc """
@@ -66,8 +66,8 @@ defmodule Helpers do
   """
   @spec count_bits(integer) :: integer
   def count_bits(bitstring) do
-    bits = for <<bit::1 <- <<bitstring>> >>, do: bit
-    Enum.sum bits
+    bits = for <<(bit::1 <- <<bitstring>>)>>, do: bit
+    Enum.sum(bits)
   end
 
   @doc """
@@ -76,16 +76,19 @@ defmodule Helpers do
   """
   def pmap(collection, fun) do
     me = self()
+
     collection
-    |> Enum.map(fn (elem) ->
-      spawn_link fn -> (send me, { self(), fun.(elem) }) end
+    |> Enum.map(fn elem ->
+      spawn_link(fn -> send(me, {self(), fun.(elem)}) end)
     end)
-    |> Enum.map(fn (pid) ->
-      receive do { ^pid, result } -> result end
+    |> Enum.map(fn pid ->
+      receive do
+        {^pid, result} -> result
+      end
     end)
   end
 
-  def transpose([[]|_]), do: []
+  def transpose([[] | _]), do: []
 
   @doc """
   Transposes a list of lists
@@ -96,7 +99,7 @@ defmodule Helpers do
   """
   @spec transpose([[any]]) :: [[any]]
   def transpose(lists) do
-   [Enum.map(lists, &hd/1) | transpose(Enum.map(lists, &tl/1))]
+    [Enum.map(lists, &hd/1) | transpose(Enum.map(lists, &tl/1))]
   end
 
   defp frequency_map do

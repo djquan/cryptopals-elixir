@@ -6,7 +6,7 @@ defmodule SetOne.ChallengeEight do
   @spec find_aes_ecb([byte]) :: [binary]
   def find_aes_ecb(ciphertexts) do
     ciphertexts
-    |> Enum.filter(&(encrypted_aes_ecb?(&1)))
+    |> Enum.filter(&encrypted_aes_ecb?(&1))
   end
 
   @doc """
@@ -14,9 +14,10 @@ defmodule SetOne.ChallengeEight do
   """
   @spec encrypted_aes_ecb?(binary) :: boolean
   def encrypted_aes_ecb?(ciphertext) do
-    binary = ciphertext
-             |> :binary.bin_to_list
-             |> Enum.chunk(16)
+    binary =
+      ciphertext
+      |> :binary.bin_to_list()
+      |> Enum.chunk(16)
 
     length(binary) != length(Enum.uniq(binary))
   end

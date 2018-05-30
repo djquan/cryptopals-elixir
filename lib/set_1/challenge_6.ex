@@ -9,15 +9,15 @@ defmodule SetOne.ChallengeSix do
   @spec find_key_repeating_xor(binary) :: [binary]
   def find_key_repeating_xor(ciphertext) do
     guess_keysizes(ciphertext)
-    |> Helpers.pmap(&(find_key_repeating_xor(ciphertext, &1)))
+    |> Helpers.pmap(&find_key_repeating_xor(ciphertext, &1))
   end
 
   def find_key_repeating_xor(ciphertext, {keysize, _}) do
     ciphertext
-    |> :binary.bin_to_list
+    |> :binary.bin_to_list()
     |> Enum.chunk(keysize)
-    |> Helpers.transpose
-    |> Helpers.pmap(fn(list) ->
+    |> Helpers.transpose()
+    |> Helpers.pmap(fn list ->
       {key, _, _} = ChallengeThree.my_decoder(list)
       key
     end)
@@ -28,9 +28,9 @@ defmodule SetOne.ChallengeSix do
   """
   @spec guess_keysizes(binary) :: [{pos_integer, pos_integer}]
   def guess_keysizes(ciphertext) do
-    (2..40)
-    |> Helpers.pmap(&({&1, calculate_block_distance(&1, ciphertext)}))
-    |> Enum.sort_by(fn ({_keysize, distance}) -> distance end)
+    2..40
+    |> Helpers.pmap(&{&1, calculate_block_distance(&1, ciphertext)})
+    |> Enum.sort_by(fn {_keysize, distance} -> distance end)
     |> Enum.take(3)
   end
 
@@ -40,7 +40,7 @@ defmodule SetOne.ChallengeSix do
   @spec calculate_block_distance(pos_integer, binary) :: float
   def calculate_block_distance(block_size, ciphertext) do
     ciphertext
-    |> :binary.bin_to_list
+    |> :binary.bin_to_list()
     |> Enum.chunk(block_size)
     |> sum_hamming_and_average
   end
@@ -50,7 +50,7 @@ defmodule SetOne.ChallengeSix do
   defp sum_hamming([_first]), do: 0
 
   defp sum_hamming([first | tail]) do
-    (hamming(first, hd(tail)) / length(first)) + sum_hamming(tail)
+    hamming(first, hd(tail)) / length(first) + sum_hamming(tail)
   end
 
   @doc """
@@ -74,8 +74,8 @@ defmodule SetOne.ChallengeSix do
 
   @spec hamming([byte], [byte]) :: pos_integer
   def hamming(a, b) do
-    Enum.zip(a,b)
-    |> Enum.map(fn({x,y}) -> x ^^^ y end)
-    |> Enum.reduce(0, fn(x, acc) -> acc + Helpers.count_bits(x) end)
+    Enum.zip(a, b)
+    |> Enum.map(fn {x, y} -> x ^^^ y end)
+    |> Enum.reduce(0, fn x, acc -> acc + Helpers.count_bits(x) end)
   end
 end

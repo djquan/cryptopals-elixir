@@ -19,6 +19,6 @@ defmodule SetOne.ChallengeSixTest do
   defp ciphertext do
     File.read!("test/set_1/c6_ciphertext.txt")
     |> String.replace("\n", "")
-    |> Base.decode64!
+    |> Base.decode64!()
   end
 end

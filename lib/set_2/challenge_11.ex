@@ -17,8 +17,9 @@ defmodule SetTwo.ChallengeEleven do
   @spec encrypt_random_ecb_cbc(binary) :: {<<_::24>>, binary}
   def encrypt_random_ecb_cbc(plaintext) do
     cipher = generate_random_aes_key()
-    if (:rand.uniform(2) == 1) do
-      {"ecb", encrypt_aes_128_ecb(plaintext, cipher) }
+
+    if :rand.uniform(2) == 1 do
+      {"ecb", encrypt_aes_128_ecb(plaintext, cipher)}
     else
       {"cbc", encrypt_aes_128_cbc(plaintext, cipher, generate_random_aes_key())}
     end
@@ -43,9 +44,8 @@ defmodule SetTwo.ChallengeEleven do
   """
   @spec pad_random(binary) :: binary
   def pad_random(plaintext) do
-    generate_random_bytes(:rand.uniform(6) + 4)
-    <> plaintext
-    <> generate_random_bytes(:rand.uniform(6) + 4)
+    generate_random_bytes(:rand.uniform(6) + 4) <>
+      plaintext <> generate_random_bytes(:rand.uniform(6) + 4)
   end
 
   @doc """
@@ -57,6 +57,6 @@ defmodule SetTwo.ChallengeEleven do
   defp generate_random_bytes(num) do
     Stream.repeatedly(fn -> :rand.uniform(255) end)
     |> Enum.take(num)
-    |> :binary.list_to_bin
+    |> :binary.list_to_bin()
   end
 end

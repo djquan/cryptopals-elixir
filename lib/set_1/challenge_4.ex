@@ -10,7 +10,7 @@ defmodule SetOne.ChallengeFour do
   @spec find_code([binary]) :: {integer, integer, binary}
   def find_code(ciphertexts) do
     ciphertexts
-    |> Helpers.pmap(fn(ciphertext) -> ChallengeThree.my_decoder(String.upcase(ciphertext)) end)
-    |> Enum.max_by(fn({_, score, _}) -> score end)
+    |> Helpers.pmap(fn ciphertext -> ChallengeThree.my_decoder(String.upcase(ciphertext)) end)
+    |> Enum.max_by(fn {_, score, _} -> score end)
   end
 end

@@ -15,14 +15,15 @@ defmodule SetOne.ChallengeThree do
   @spec my_decoder(binary) :: binary
   def my_decoder(ciphertext) when is_binary(ciphertext) do
     Base.decode16!(ciphertext)
-    |> :binary.bin_to_list
+    |> :binary.bin_to_list()
     |> my_decoder
   end
 
   @spec my_decoder([binary]) :: {integer, integer, binary}
   def my_decoder(ciphertext_list) when is_list(ciphertext_list) do
-    0..255 |> Enum.reduce({0, 0, ""}, fn(key, acc={_, old_score, _}) ->
-      plaintext = Helpers.my_xor(<<key>>, ciphertext_list) |> :binary.list_to_bin
+    0..255
+    |> Enum.reduce({0, 0, ""}, fn key, acc = {_, old_score, _} ->
+      plaintext = Helpers.my_xor(<<key>>, ciphertext_list) |> :binary.list_to_bin()
       new_score = Helpers.score(plaintext)
       if new_score > old_score, do: {key, new_score, plaintext}, else: acc
     end)

@@ -13,6 +13,6 @@ defmodule SetOne.ChallengeSevenTest do
   defp ciphertext do
     File.read!("test/set_1/c7_ciphertext.txt")
     |> String.replace("\n", "")
-    |> Base.decode64!
+    |> Base.decode64!()
   end
 end

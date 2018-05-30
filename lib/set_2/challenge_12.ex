@@ -1,6 +1,6 @@
 defmodule SetTwo.ChallengeTwelve do
   import SetTwo.ChallengeTen
-  @key SetTwo.ChallengeEleven.generate_random_aes_key
+  @key SetTwo.ChallengeEleven.generate_random_aes_key()
 
   @doc """
   Cracks and discovers the secret encrypted with encryption_oracle_2
@@ -9,14 +9,15 @@ defmodule SetTwo.ChallengeTwelve do
   @spec crack_code() :: binary
   def crack_code do
     ciphertext = encryption_oracle_2("")
+
     if SetOne.ChallengeEight.encrypted_aes_ecb?(ciphertext) do
       raise ArgumentError, message: "Not ECB encrypted"
     end
 
     block_size = determine_block_size(ciphertext)
 
-    (1..num_blocks(ciphertext, block_size))
-    |> Enum.reduce("", fn(x, acc) ->
+    1..num_blocks(ciphertext, block_size)
+    |> Enum.reduce("", fn x, acc ->
       acc <> brute_force_decrypt(x * block_size, acc)
     end)
     |> String.replace(<<0>>, "")
@@ -35,11 +36,14 @@ defmodule SetTwo.ChallengeTwelve do
     input_block = :binary.copy("A", block_size - 1 - byte_size(known))
     sample = Kernel.binary_part(encryption_oracle_2(input_block), 0, block_size)
 
-    result = (0..255)
-    |> Stream.filter(fn(x) ->
-      sample == Kernel.binary_part(encryption_oracle_2(input_block <> known <> <<x>>), 0, block_size)
-    end)
-    |> Enum.take(1) |> hd
+    result =
+      0..255
+      |> Stream.filter(fn x ->
+        sample ==
+          Kernel.binary_part(encryption_oracle_2(input_block <> known <> <<x>>), 0, block_size)
+      end)
+      |> Enum.take(1)
+      |> hd
 
     <<result>> <> brute_force_decrypt(block_size, known <> <<result>>)
   end
@@ -55,8 +59,8 @@ defmodule SetTwo.ChallengeTwelve do
   """
   @spec determine_block_size(binary) :: pos_integer
   def determine_block_size(ciphertext) do
-    (1..100)
-    |> Stream.filter(fn(x) ->
+    1..100
+    |> Stream.filter(fn x ->
       String.ends_with?(encryption_oracle_2(:binary.copy("A", x)), ciphertext)
     end)
     |> Enum.take(1)
@@ -81,7 +85,7 @@ defmodule SetTwo.ChallengeTwelve do
   @spec num_blocks(binary, pos_integer) :: pos_integer
   def num_blocks(ciphertext, block_size) do
     ciphertext
-    |> :binary.bin_to_list
+    |> :binary.bin_to_list()
     |> Enum.chunk(block_size)
     |> length
   end
@@ -90,6 +94,6 @@ defmodule SetTwo.ChallengeTwelve do
 
   defp secret do
     "Um9sbGluJyBpbiBteSA1LjAKV2l0aCBteSByYWctdG9wIGRvd24gc28gbXkgaGFpciBjYW4gYmxvdwpUaGUgZ2lybGllcyBvbiBzdGFuZGJ5IHdhdmluZyBqdXN0IHRvIHNheSBoaQpEaWQgeW91IHN0b3A/IE5vLCBJIGp1c3QgZHJvdmUgYnkK"
-    |> Base.decode64!
+    |> Base.decode64!()
   end
 end

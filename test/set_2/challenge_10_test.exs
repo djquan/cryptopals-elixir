@@ -11,10 +11,11 @@ defmodule SetTwo.ChallengeTenTest do
   end
 
   test "decrypts the first block correctly" do
-    first_block = ciphertext() |> :binary.bin_to_list |> Stream.chunk(16) |> Enum.take(1)
+    first_block = ciphertext() |> :binary.bin_to_list() |> Stream.chunk(16) |> Enum.take(1)
     expected_result = "I'm back and I'm"
 
-    assert decrypt_aes_128_cbc(first_block, "YELLOW SUBMARINE", :binary.copy(<<0>>, 16)) == expected_result
+    assert decrypt_aes_128_cbc(first_block, "YELLOW SUBMARINE", :binary.copy(<<0>>, 16)) ==
+             expected_result
   end
 
   test "decrypts the entire ciphertext correctly" do
@@ -24,10 +25,16 @@ defmodule SetTwo.ChallengeTenTest do
   end
 
   test "encrypts plaintext in AES 128 CBC" do
-    plaintext = "Looking at it now \nLast December \nWe were built to fall apart \nThen fall back together"
+    plaintext =
+      "Looking at it now \nLast December \nWe were built to fall apart \nThen fall back together"
+
     ciphertext = encrypt_aes_128_cbc(plaintext, "YELLOW SUBMARINE", :binary.copy(<<0>>, 16))
-    assert decrypt_aes_128_cbc(ciphertext, "YELLOW SUBMARINE", :binary.copy(<<0>>, 16)) == plaintext
+
+    assert decrypt_aes_128_cbc(ciphertext, "YELLOW SUBMARINE", :binary.copy(<<0>>, 16)) ==
+             plaintext
   end
 
-  defp ciphertext, do: File.read!("test/set_2/c10_ciphertext.txt") |> String.replace("\n", "") |> Base.decode64!
+  defp ciphertext,
+    do:
+      File.read!("test/set_2/c10_ciphertext.txt") |> String.replace("\n", "") |> Base.decode64!()
 end
