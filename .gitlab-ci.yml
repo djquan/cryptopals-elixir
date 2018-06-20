@@ -1,8 +1,0 @@
-image: bitwalker/alpine-elixir
-
-variables:
-  MIX_ENV: "test"
-
-mix:
-  script:
-  - mix test
