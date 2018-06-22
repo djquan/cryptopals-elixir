@@ -1,0 +1,5 @@
+pipeline:
+  build:
+    image: bitwalker/alpine-elixir
+    commands:
+      - mix test
