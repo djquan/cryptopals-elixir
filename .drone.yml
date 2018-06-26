@@ -1,12 +1,12 @@
 pipeline:
   test:
     group: build
-    image: bitwalker/alpine-elixir
+    image: bitwalker/alpine-elixir-phoenix
     commands:
       - mix test
   dialyzer:
     group: build
-    image: bitwalker/alpine-elixir
+    image: bitwalker/alpine-elixir-phoenix
     commands:
       - mix deps.get
       - mix dialyzer
