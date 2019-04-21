@@ -7,7 +7,7 @@ defmodule SetOne.ChallengeSeven do
   def decrypt_aes_128_ecb(ciphertext, cipher) when is_binary(ciphertext) do
     ciphertext
     |> :binary.bin_to_list()
-    |> Enum.chunk(16)
+    |> Stream.chunk_every(16)
     |> Enum.map(&decrypt_aes_128_ecb(&1, cipher))
     |> Enum.join()
     |> String.replace(~r/\x00|\x04/, "")

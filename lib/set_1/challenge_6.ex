@@ -15,7 +15,7 @@ defmodule SetOne.ChallengeSix do
   def find_key_repeating_xor(ciphertext, {keysize, _}) do
     ciphertext
     |> :binary.bin_to_list()
-    |> Enum.chunk(keysize)
+    |> Stream.chunk_every(keysize, keysize, :discard)
     |> Helpers.transpose()
     |> Helpers.pmap(fn list ->
       {key, _, _} = ChallengeThree.my_decoder(list)
@@ -41,7 +41,7 @@ defmodule SetOne.ChallengeSix do
   def calculate_block_distance(block_size, ciphertext) do
     ciphertext
     |> :binary.bin_to_list()
-    |> Enum.chunk(block_size)
+    |> Enum.chunk_every(block_size)
     |> sum_hamming_and_average
   end
 

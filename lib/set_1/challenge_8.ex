@@ -17,7 +17,7 @@ defmodule SetOne.ChallengeEight do
     binary =
       ciphertext
       |> :binary.bin_to_list()
-      |> Enum.chunk(16)
+      |> Enum.chunk_every(16)
 
     length(binary) != length(Enum.uniq(binary))
   end

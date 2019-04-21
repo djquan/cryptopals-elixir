@@ -86,7 +86,7 @@ defmodule SetTwo.ChallengeTwelve do
   def num_blocks(ciphertext, block_size) do
     ciphertext
     |> :binary.bin_to_list()
-    |> Enum.chunk(block_size)
+    |> Enum.chunk_every(block_size)
     |> length
   end
 

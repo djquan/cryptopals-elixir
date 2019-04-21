@@ -8,5 +8,5 @@ defmodule SetTwo.ChallengeNine do
     "hello\x04"
   """
   @spec pad(binary, pos_integer) :: binary
-  def pad(block, pad_length), do: String.ljust(block, pad_length, 4)
+  def pad(block, pad_length), do: String.pad_trailing(block, pad_length, <<4>>)
 end

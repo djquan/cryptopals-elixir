@@ -11,7 +11,7 @@ defmodule SetTwo.ChallengeTenTest do
   end
 
   test "decrypts the first block correctly" do
-    first_block = ciphertext() |> :binary.bin_to_list() |> Stream.chunk(16) |> Enum.take(1)
+    first_block = ciphertext() |> :binary.bin_to_list() |> Stream.chunk_every(16) |> Enum.take(1)
     expected_result = "I'm back and I'm"
 
     assert decrypt_aes_128_cbc(first_block, "YELLOW SUBMARINE", :binary.copy(<<0>>, 16)) ==
