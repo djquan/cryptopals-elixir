@@ -1,7 +1,7 @@
 Cryptopals
 ==========
 
-[![build](https://ci.quan.io/api/badges/djquan/cryptopals-elixir/status.svg)](https://ci.quan.io/djquan/cryptopals-elixir)
+[![build](https://ci.quan.io/app/rest/builds/buildType:\(id:CryptopalsElixir_Build\)/statusIcon)](http://ci.quan.io/viewType.html?buildTypeId=CryptopalsElixir_Build&guest=1)
 
 Going through http://cryptopals.com/ in Elixir
 
