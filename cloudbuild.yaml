@@ -1,0 +1,3 @@
+steps:
+- name: 'us.gcr.io/personal-249502/elixir:1.9'
+  args: ['mix', 'test]
