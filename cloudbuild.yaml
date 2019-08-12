@@ -1,3 +1,4 @@
+timeout: 15m
 steps:
 - name: "us.gcr.io/personal-249502/elixir:1.9"
   entrypoint: "mix"
@@ -11,4 +12,3 @@ steps:
 - name: "us.gcr.io/personal-249502/elixir:1.9"
   entrypoint: "mix"
   args: ["dialyzer"]
-  timeout: 15m
