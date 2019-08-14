@@ -1,0 +1,16 @@
+kind: pipeline
+name: default
+
+steps:
+- name: test
+  image: reg.quan.io/dan/elixir:1.9
+  commands:
+  - mix test
+- name: dialyzer
+  image: reg.quan.io/dan/elixir:1.9
+  commands:
+  - mix deps.get
+  - mix dialyzer
+
+image_pull_secrets:
+- dockerconfigjson
