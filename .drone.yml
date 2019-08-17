@@ -2,6 +2,15 @@ kind: pipeline
 name: default
 
 steps:
+- name: restore-cache
+  image: drillster/drone-volume-cache
+  volumes:
+  - name: cache
+    path: /cache
+  settings:
+    restore: true
+    mount:
+      - _build/dev
 - name: test
   image: reg.quan.io/dan/elixir:1.9
   commands:
@@ -11,6 +20,20 @@ steps:
   commands:
   - mix deps.get
   - mix dialyzer --halt-exit-status
+- name: rebuild-cache
+  image: drillster/drone-volume-cache
+  volumes:
+  - name: cache
+    path: /cache
+  settings:
+    rebuild: true
+    mount:
+      - _build/dev
+
+volumes:
+  - name: cache
+    host:
+      path: /tmp/cache
 
 image_pull_secrets:
 - dockerconfigjson
