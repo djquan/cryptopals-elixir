@@ -10,7 +10,7 @@ steps:
   image: reg.quan.io/dan/elixir:1.9
   commands:
   - mix deps.get
-  - mix dialyzer
+  - mix dialyzer --halt-exit-status
 
 image_pull_secrets:
 - dockerconfigjson
