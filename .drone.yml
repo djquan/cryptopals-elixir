@@ -7,6 +7,8 @@ steps:
   when:
     branch:
     - master
+    event:
+    - push
   volumes:
   - name: cache
     path: /cache
@@ -16,6 +18,9 @@ steps:
       - _build/dev
 - name: test
   image: reg.quan.io/dan/elixir:1.9
+  when:
+    branch:
+    - master
   commands:
   - mix test
 - name: dialyzer
@@ -28,6 +33,8 @@ steps:
   when:
     branch:
     - master
+    event:
+    - push
   volumes:
   - name: cache
     path: /cache
