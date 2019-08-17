@@ -4,6 +4,9 @@ name: default
 steps:
 - name: restore-cache
   image: drillster/drone-volume-cache
+  when:
+    branch:
+    - master
   volumes:
   - name: cache
     path: /cache
@@ -22,6 +25,9 @@ steps:
   - mix dialyzer --halt-exit-status
 - name: rebuild-cache
   image: drillster/drone-volume-cache
+  when:
+    branch:
+    - master
   volumes:
   - name: cache
     path: /cache
