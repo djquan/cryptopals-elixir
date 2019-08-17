@@ -39,7 +39,7 @@ steps:
 volumes:
   - name: cache
     host:
-      path: /tmp/cache-cryptopals
+      path: /tmp/cache
 
 image_pull_secrets:
 - dockerconfigjson
