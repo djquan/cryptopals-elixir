@@ -1,4 +1,4 @@
-[![Status](https://github.com/djquan/exercism/workflows/Elixir/badge.svg)](https://github.com/djquan/cryptopals-elixir/actions)
+[![Status](https://github.com/djquan/cryptopals-elixir/workflows/Elixir/badge.svg)](https://github.com/djquan/cryptopals-elixir/actions)
 
 Cryptopals
 ==========
