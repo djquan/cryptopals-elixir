@@ -16,7 +16,7 @@ defmodule SetTwo.ChallengeTen do
 
   @spec encrypt_aes_128_ecb([byte], binary) :: binary
   def encrypt_aes_128_ecb(plaintext, cipher) when is_list(plaintext) do
-    :crypto.block_encrypt(:aes_cbc128, cipher, :binary.copy(<<0>>, 16), plaintext)
+    :crypto.crypto_one_time(:aes_128_cbc, cipher, :binary.copy(<<0>>, 16), plaintext, true)
   end
 
   @doc """
@@ -31,10 +31,6 @@ defmodule SetTwo.ChallengeTen do
     |> :binary.list_to_bin()
   end
 
-  @doc """
-  Decrypts ciphertext encrypted with aes_128_cbc. Takes an initialization vector,
-  http://cryptopals.com/sets/2/challenges/10/
-  """
   @spec decrypt_aes_128_cbc(binary, binary, binary) :: binary
   def decrypt_aes_128_cbc(ciphertext, cipher, iv) do
     ciphertext
@@ -60,10 +56,6 @@ defmodule SetTwo.ChallengeTen do
     |> encrypt_aes_128_ecb(cipher)
   end
 
-  @doc """
-  Encrypts plaintext in aes_128_cbc
-  http://cryptopals.com/sets/2/challenges/10/
-  """
   @spec encrypt_aes_128_cbc(binary, binary, binary) :: binary
   def encrypt_aes_128_cbc(plaintext, cipher, iv) do
     plaintext

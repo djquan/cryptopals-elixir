@@ -15,21 +15,9 @@ defmodule Helpers do
   @spec my_xor([byte], [byte]) :: [byte]
   def my_xor(a, b) when is_list(a) do
     Enum.zip(a, b)
-    |> Enum.map(fn {x, y} -> x ^^^ y end)
+    |> Enum.map(fn {x, y} -> Bitwise.bxor(x, y) end)
   end
 
-  @doc """
-  Function that takes a single char and a given ciphertext as a list of bytes
-
-  Returns the ciphertext XORed against a list of the given char
-
-  ### Examples
-    iex> Helpers.my_xor(<<0>>, [0, 0])
-    [0, 0]
-
-    iex> Helpers.my_xor(<<0>>, [1, 1])
-    [1, 1]
-  """
   @spec my_xor(binary, [byte]) :: [byte]
   def my_xor(char, ciphertext) when is_binary(char) do
     :binary.copy(char, length(ciphertext))

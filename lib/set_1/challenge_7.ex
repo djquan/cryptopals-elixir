@@ -15,6 +15,6 @@ defmodule SetOne.ChallengeSeven do
 
   @spec decrypt_aes_128_ecb([byte], binary) :: binary
   def decrypt_aes_128_ecb(ciphertext, cipher) when is_list(ciphertext) do
-    :crypto.block_decrypt(:aes_cbc128, cipher, :binary.copy(<<0>>, 16), ciphertext)
+    :crypto.crypto_one_time(:aes_128_cbc, cipher, :binary.copy(<<0>>, 16), ciphertext, false)
   end
 end
